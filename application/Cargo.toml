@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 connectors = { path = "../connectors" }
+domain = { path = "../domain" }
 anyhow = "1.0"

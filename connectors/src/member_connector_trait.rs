@@ -6,8 +6,13 @@ pub struct MemberRecord {
     pub email: String,
 }
 
+pub struct CreateMemberDto {
+    pub name: String,
+    pub email: String,
+}
+
 #[async_trait]
-pub trait MemberRepository: Send + Sync {
+pub trait MemberConnectorTrait: Send + Sync {
     async fn get_by_id(&self, id: String) -> anyhow::Result<Option<MemberRecord>>;
-    async fn save(&self, member: &MemberRecord) -> anyhow::Result<()>;
+    async fn save(&self, member: &CreateMemberDto) -> anyhow::Result<MemberRecord>;
 }
