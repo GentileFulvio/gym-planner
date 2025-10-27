@@ -15,6 +15,10 @@ impl MemberConnector {
              * Arc and RwLock are used here to allow safe concurrent access to the in-memory data store.
              * If we don't do this we need to make all methods &mut self which would complicate especially since the actual implementation
              * does not need mutability this is solely for the in-memory mock.
+             * RwLock vs Mutex, RwLock allows multiple concurrent reads which is more efficient for read-heavy workloads, in this case if we have multiple readers
+             * they won't deadlock each other.
+             * 
+             * When a writer comes in it will lock out all other readers and writers until it's done.
              */
             data: Arc::new(RwLock::new(HashMap::new())),
         }

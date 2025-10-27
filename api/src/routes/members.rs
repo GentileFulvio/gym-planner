@@ -17,7 +17,7 @@ pub fn router() -> Router<AppState> {
 async fn create_member(
     State(state): State<AppState>,
     Json(payload): Json<CreateMemberRequest>,
-) -> Result<Json<(MemberResponse)>, axum::http::StatusCode> {
+) -> Result<Json<MemberResponse>, axum::http::StatusCode> {
     let member = state.member_service
         .register_member(payload.name, payload.email)
         .await
