@@ -9,7 +9,8 @@ use crate::{AppState, dto::member_dto::{CreateMemberRequest, MemberResponse}};
 pub fn router() -> Router<AppState> {
     Router::new()
         .route("/", post(create_member))
-        .route("/:id", get(get_member))
+        .route("/", get(get_all_members))
+        .route("/{id}", get(get_member))
 }
 
 // POST /members
@@ -39,4 +40,17 @@ async fn get_member(
         Some(m) => Ok(Json(MemberResponse::from_domain(&m))),
         None => Err(axum::http::StatusCode::NOT_FOUND),
     }
+}
+
+async fn get_all_members(
+    State(state): State<AppState>,
+) -> Result<Json<Vec<MemberResponse>>, axum::http::StatusCode> {
+    let members = state.member_service
+        .list_all_members()
+        .await
+        .map_err(|_| axum::http::StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    let response: Vec<MemberResponse> = members.iter().map(|m| MemberResponse::from_domain(m)).collect();
+
+    Ok(Json(response))
 }

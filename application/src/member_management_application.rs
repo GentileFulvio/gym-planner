@@ -23,4 +23,10 @@ impl<R: MemberConnectorTrait> MemberManagementApplication<R> {
 
         Ok(result.map(|data| Member::new(data.id, data.name, data.email)))
     }
+
+    pub async fn list_all_members(&self) -> anyhow::Result<Vec<Member>> {
+        let records = self.repository.get_all().await?;
+
+        Ok(records.into_iter().map(|data| Member::new(data.id, data.name, data.email)).collect())
+    }
 }

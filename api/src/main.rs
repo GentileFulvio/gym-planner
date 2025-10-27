@@ -1,6 +1,6 @@
-use axum::{Router, routing::{get, post}, extract::State};
-use std::sync::Arc;
-use connectors::{member_connector_default::MemberConnector, member_connector_trait::MemberConnectorTrait};
+use axum::{Router};
+use std::sync::{Arc};
+use connectors::{member_connector_default::MemberConnector};
 use application::member_management_application::MemberManagementApplication;
 use crate::routes::members;
 
