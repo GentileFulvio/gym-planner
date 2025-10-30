@@ -1,1 +1,2 @@
 pub mod member_management_application;
+pub mod club_management_application;
